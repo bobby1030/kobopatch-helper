@@ -12,7 +12,7 @@ then
 fi
 
 # Build folder structure
-mkdir -p patches cache output/stock output/patch
+mkdir -p patches/$TARGETVER cache output/$TARGETVER/stock output/$TARGETVER/patch
 if [ "$?" -ne 0 ]
 then
 	echo "Failed making directories. /patches & /cache might already exist?"
@@ -24,7 +24,7 @@ unzip -o cache/kobopatch_$TARGETVER.zip -d patches/$TARGETVER/
 
 # Get stock firmware
 wget "https://kbdownload1-a.akamaihd.net/firmwares/$HARDWARE/$DATE/kobo-update-$TARGETVER.zip" -O patches/$TARGETVER/src/kobo-update-$TARGETVER.zip
-unzip -o patches/$TARGETVER/src/kobo-update-$TARGETVER.zip KoboRoot.tgz -d output/stock
+unzip -o patches/$TARGETVER/src/kobo-update-$TARGETVER.zip KoboRoot.tgz -d output/$TARGETVER/stock
 
 # Overwrite kobopatch.yaml with template
 cp patches/$TARGETVER/kobopatch.yaml patches/$TARGETVER/kobopatch.yaml.bak
@@ -34,4 +34,4 @@ cat kobopatch.yaml | sed -e "s/{{TARGETVER}}/$TARGETVER/" > patches/$TARGETVER/k
 patches/$TARGETVER/kobopatch.sh
 
 # Copy patched firmware to output folder
-cp patches/$TARGETVER/out/KoboRoot.tgz output/patch
+cp patches/$TARGETVER/out/KoboRoot.tgz output/$TARGETVER/patch
